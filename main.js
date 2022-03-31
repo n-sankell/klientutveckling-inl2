@@ -1,11 +1,14 @@
 var axios = require("axios");
 var $ = require("jquery");
 
-let button = $('#myButton');
+let score;
+
+let button = $("#startButton");
 let questionContainer = $(".questionContainer");
 
 let getData = async (url) => {
     button.hide();
+    score = 0;
     let response = await axios.get(url);
     return response.data;
 }
@@ -16,28 +19,41 @@ button.on("click", async () => {
     printQuestions(questionsArray, 0);
 });
 
-let printQuestions = async (questionsArray, counter) => {
-    if (counter < questionsArray.length) {
+let printQuestions = async (questionsArray, questionCounter) => {
+    if (questionCounter < questionsArray.length) {
+        questionContainer.html("");
 
-        let questionObject = questionsArray[counter];
-        let question = `${questionObject.question}`;
+        let { question, correct_answer, incorrect_answers } = questionsArray[questionCounter];
+        let alternatives = [...incorrect_answers, `correct: ${correct_answer}`];
 
-        questionContainer.append(`<p>${questionObject.question}</p>`)
+        questionContainer.append(`<p>Question ${questionCounter+1}<br />${question}</p>`);
 
-        let alternatives = [`correct: ${questionObject.correct_answer}`];
-
-        questionObject.incorrect_answers.forEach(answer => {
-            alternatives.push(answer);
-        });
-
-        console.log(question);
-
+        let buttonCounter = 1;
         alternatives.forEach(answer => {
-            console.log(answer);
+            let button = $('<button/>', {
+                text: `${answer}`,
+                id: `btn${buttonCounter}`, 
+                click: function () {
+                
+                    if (button.text() === `correct: ${correct_answer}`) {
+                        console.log(`${correct_answer} is correct!`);
+                        score++;
+                    } else {
+                        console.log(`${button.text()} is wrong!`);
+                    }
+                    
+                    printQuestions(questionsArray, questionCounter+1);
+    
+                }
+            });
+
+            questionContainer.append(button);
+            buttonCounter++;
         });
 
-        printQuestions(questionsArray, counter+1);
     } else {
+        questionContainer.html(`Your score was ${score}`);
+
         console.log("Back to beginning");
         button.show();
     }
