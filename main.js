@@ -30,6 +30,7 @@ let printQuestions = async (questionsArray, counter) => {
         });
 
         console.log(question);
+        console.log("hej")
 
         alternatives.forEach(answer => {
             console.log(answer);
