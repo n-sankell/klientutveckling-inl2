@@ -1,6 +1,5 @@
 var axios = require("axios");
 var $ = require("jquery");
-var _ = require("underscore");
 
 let score;
 
@@ -26,8 +25,8 @@ let printQuestions = (questionsArray, questionCounter) => {
     if (questionCounter < questionsArray.length) {
 
         resetTexts();
-
-        let { question, correct_answer, incorrect_answers } = questionsArray[questionCounter];
+        
+        let { question, correct_answer, incorrect_answers } = removeHtmlEnteties(questionsArray[questionCounter]);
         let alternatives = [correct_answer, ...incorrect_answers];
 
         questionContainer.append(`<p>Question ${questionCounter+1}<br />${question}</p>`);
@@ -72,4 +71,20 @@ let resetTexts = () => {
     questionContainer.html("");
     messageContainer.html("");
     nextButtonContainer.html("");
+}
+
+let removeHtmlEnteties = (object) => {
+    newIncorrectAnswers = object.incorrect_answers.map(answer => decodeHtml(answer));
+    newObject = {
+        question: decodeHtml(object.question),
+        correct_answer: decodeHtml(object.correct_answer), 
+        incorrect_answers: newIncorrectAnswers
+    };
+    return newObject;
+}
+
+function decodeHtml(html) {
+    let txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
 }
