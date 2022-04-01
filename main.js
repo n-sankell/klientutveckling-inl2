@@ -4,19 +4,21 @@ var $ = require("jquery");
 let score;
 
 let startButton = $("#startButton");
+let submitContainer = $(".questionContainer");
 let questionContainer = $(".questionContainer");
 let messageContainer = $(".messageContainer");
 let nextButtonContainer = $(".nextButtonContainer");
 let nextQuestionButton = $(`<button id="nextQuestionButton">Next</button>`);
 
 let getData = async (url) => {
-    startButton.hide();
+    submitContainer.hide();
     score = 0;
     let response = await axios.get(url);
     return response.data;
 }
 
-startButton.on("click", async () => {
+startButton.on("click", async (e) => {
+    e.preventDefault();
     let response = await getData("https://opentdb.com/api.php?amount=10");
     printQuestions(response.results, 0);
 });
@@ -62,7 +64,7 @@ let printQuestions = (questionsArray, questionCounter) => {
     } else {
         resetTexts();
         messageContainer.html(`Your score was ${score}`);
-        startButton.show();
+        submitContainer.show();
     }
 
 }
