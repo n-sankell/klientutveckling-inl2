@@ -1,61 +1,75 @@
 var axios = require("axios");
 var $ = require("jquery");
+var _ = require("underscore");
 
 let score;
 
-let button = $("#startButton");
+let startButton = $("#startButton");
 let questionContainer = $(".questionContainer");
+let messageContainer = $(".messageContainer");
+let nextButtonContainer = $(".nextButtonContainer");
+let nextQuestionButton = $(`<button id="nextQuestionButton">Next</button>`);
 
 let getData = async (url) => {
-    button.hide();
+    startButton.hide();
     score = 0;
     let response = await axios.get(url);
     return response.data;
 }
 
-button.on("click", async () => {
-    let questionsObject = await getData("https://opentdb.com/api.php?amount=10");
-    questionsArray = questionsObject.results;
-    printQuestions(questionsArray, 0);
+startButton.on("click", async () => {
+    let response = await getData("https://opentdb.com/api.php?amount=10");
+    printQuestions(response.results, 0);
 });
 
-let printQuestions = async (questionsArray, questionCounter) => {
+let printQuestions = (questionsArray, questionCounter) => {
     if (questionCounter < questionsArray.length) {
-        questionContainer.html("");
+
+        resetTexts();
 
         let { question, correct_answer, incorrect_answers } = questionsArray[questionCounter];
-        let alternatives = [...incorrect_answers, `correct: ${correct_answer}`];
+        let alternatives = [correct_answer, ...incorrect_answers];
 
         questionContainer.append(`<p>Question ${questionCounter+1}<br />${question}</p>`);
 
-        let buttonCounter = 1;
         alternatives.forEach(answer => {
             let button = $('<button/>', {
-                text: `${answer}`,
-                id: `btn${buttonCounter}`, 
+                text: answer,
+                id: answer === correct_answer ? `btnCorrect` : `btnWrong`,
+                class: "answerButton",
                 click: function () {
-                
-                    if (button.text() === `correct: ${correct_answer}`) {
-                        console.log(`${correct_answer} is correct!`);
+                    
+                    $(".answerButton").prop("disabled", true);
+                    $("#btnCorrect").css("background-color", "green");
+
+                    if (button.text() ===correct_answer) { 
+                        messageContainer.html(`${correct_answer} is correct!`);
                         score++;
                     } else {
-                        console.log(`${button.text()} is wrong!`);
+                        button.css("background-color", "red");
+                        messageContainer.html(`<p>${button.text()} is wrong!<br/>${correct_answer} was the right answer</p>`);
                     }
-                    
-                    printQuestions(questionsArray, questionCounter+1);
-    
+
+                    nextButtonContainer.append(nextQuestionButton);
+                    nextQuestionButton.on("click", () => {
+                        printQuestions(questionsArray, questionCounter+1);
+                    });
                 }
             });
 
             questionContainer.append(button);
-            buttonCounter++;
         });
 
     } else {
-        questionContainer.html(`Your score was ${score}`);
-
-        console.log("Back to beginning");
-        button.show();
+        resetTexts();
+        messageContainer.html(`Your score was ${score}`);
+        startButton.show();
     }
 
+}
+
+let resetTexts = () => {
+    questionContainer.html("");
+    messageContainer.html("");
+    nextButtonContainer.html("");
 }
