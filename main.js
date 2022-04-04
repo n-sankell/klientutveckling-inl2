@@ -1,5 +1,5 @@
-var axios = require("axios");
-var $ = require("jquery");
+let axios = require("axios");
+let $ = require("jquery");
 
 if(localStorage) {
     if(localStorage.getItem("colorTheme") === "dark") {
@@ -116,7 +116,7 @@ let removeHtmlEnteties = (object) => {
     return newObject;
 }
 
-function decodeHtml(html) {
+let decodeHtml = (html) => {
     let txt = document.createElement("textarea");
     txt.innerHTML = html;
     return txt.value;
