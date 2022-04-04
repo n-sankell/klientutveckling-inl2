@@ -1,6 +1,30 @@
 var axios = require("axios");
 var $ = require("jquery");
 
+if(localStorage) {
+    if(localStorage.getItem("colorTheme") === "dark") {
+        $("body").addClass("dark");
+        $(".darkButton").hide();
+        $(".lightButton").show();
+    }
+}
+
+$(".darkButton").on("click", ()=> {
+    $(".darkButton").hide();
+    $(".lightButton").show();
+    $("body").addClass("transition");
+    $("body").addClass("dark");
+    localStorage.setItem("colorTheme", "dark");
+});
+
+$(".lightButton").on("click", ()=> {
+    $(".lightButton").hide();
+    $(".darkButton").show();
+    $("body").addClass("transition");
+    $("body").removeClass("dark");
+    localStorage.setItem("colorTheme", "light");
+});
+
 let score;
 
 let startButton = $("#startButton");
