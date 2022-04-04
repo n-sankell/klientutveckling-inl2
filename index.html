@@ -16,12 +16,21 @@
         
         <div class="submitContainer">
             <form>
+                <p>Dra för att välja.</p>
+
+             <div class="slidecontainer">
+             <input type="range" min="1" max="10" value="50" class="slider" id="antalSpel">
+             <p>antal spel: <span id="demo"></span></p>
+             </div>
+                <input value="Start quiz" type="submit" class="startButton" id="startButton" />
                 
 
-                <input value="Start quiz" type="submit" class="startButton" id="startButton" />
+
+                
             </form>
             
         </div>
+        
     
         <div class="questionContainer"></div>
     
@@ -37,6 +46,6 @@
         <p>N & N</p>
     </footer>
 
-    <script src="bundle.js""></script>
+    <script src="bundle.js"></script>
 </body>
 </html>

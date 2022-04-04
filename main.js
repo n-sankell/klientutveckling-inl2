@@ -4,11 +4,18 @@ var $ = require("jquery");
 let score;
 
 let startButton = $("#startButton");
-let submitContainer = $(".questionContainer");
+let submitContainer = $(".submitContainer");
 let questionContainer = $(".questionContainer");
 let messageContainer = $(".messageContainer");
 let nextButtonContainer = $(".nextButtonContainer");
 let nextQuestionButton = $(`<button id="nextQuestionButton">Next</button>`);
+let slider = document.getElementById("antalSpel");
+let output = document.getElementById("demo");
+output.innerHTML = slider.value;
+
+slider.oninput = function() {
+  output.innerHTML = this.value;
+}
 
 let getData = async (url) => {
     submitContainer.hide();
