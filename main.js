@@ -7,7 +7,6 @@ console.log(localStorage);
 if(localStorage) {
     if(localStorage.getItem("colorTheme") === "dark") {
         $("body").addClass("dark");
-        console.log("test")
         $(".darkButton").hide();
         $(".lightButton").show();
     } else {
@@ -127,7 +126,8 @@ let printQuestions = (questionsArray, questionCounter) => {
 
     } else {
         resetTexts();
-        messageContainer.html(`Your score was ${score}`);
+        messageContainer.html(`<p>Your score was ${score} of ${questionsArray.length}</p><br />
+        <p>Grade: ${calculateScore(score, questionsArray.length)}</p>`);
         messageContainer.append(playAgainButton);
         playAgainButton.on("click", () => {
             resetTexts();
@@ -163,6 +163,18 @@ let logAnswer = (question, answer, correctAnswer) => {
         loggedAnswer: answer,
         loggedCorrectAnswer: correctAnswer
     });
+}
+
+let calculateScore = (score, amountOfQuestions) => {
+    if (score / amountOfQuestions == 1) {
+        return "Aced it!"
+    } else if (score / amountOfQuestions >= 0.75) {
+        return "Exeptional!";
+    } else if (score / amountOfQuestions >= 0.5) {
+        return "Passed";
+    } else {
+        return "Failed";
+    }
 }
 
 let resetTexts = () => {
