@@ -62,7 +62,7 @@ let printQuestions = (questionsArray, questionCounter) => {
         resetTexts();
         
         let { question, correct_answer, incorrect_answers } = removeHtmlEnteties(questionsArray[questionCounter]);
-        let alternatives = [correct_answer, ...incorrect_answers];
+        let alternatives = [correct_answer, ...incorrect_answers].shuffle();
 
         questionContainer.append(`<p>Question ${questionCounter+1}<br />${question}</p>`);
 
@@ -103,6 +103,30 @@ let printQuestions = (questionsArray, questionCounter) => {
 
 }
 
+Object.defineProperty(Array.prototype, "shuffle", {
+    value: function() {
+        for (let i = this.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this[i], this[j]] = [this[j], this[i]];
+        }
+        return this;
+    }
+});
+
+let logAnswer = (question, answer, correctAnswer) => {
+    answerLog.push( {
+        logggedQuestion: question,
+        loggedAnswer: answer,
+        loggedCorrectAnswer: correctAnswer
+    });
+}
+
+let decodeHtml = (html) => {
+    let txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+}
+
 let resetTexts = () => {
     questionContainer.html("");
     messageContainer.html("");
@@ -117,18 +141,4 @@ let removeHtmlEnteties = (object) => {
         incorrect_answers: newIncorrectAnswers
     };
     return newObject;
-}
-
-let decodeHtml = (html) => {
-    let txt = document.createElement("textarea");
-    txt.innerHTML = html;
-    return txt.value;
-}
-
-let logAnswer = (question, answer, correctAnswer) => {
-    answerLog.push( {
-        logggedQuestion: question,
-        loggedAnswer: answer,
-        loggedCorrectAnswer: correctAnswer
-    });
 }
