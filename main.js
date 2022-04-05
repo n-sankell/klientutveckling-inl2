@@ -1,6 +1,9 @@
 let axios = require("axios");
 let $ = require("jquery");
 
+console.log(localStorage);
+
+//Check local storage if there is a colot-theme saved
 if(localStorage) {
     if(localStorage.getItem("colorTheme") === "dark") {
         $("body").addClass("dark");
@@ -66,17 +69,19 @@ let printQuestions = (questionsArray, questionCounter) => {
 
         questionContainer.append(`<p>Question ${questionCounter+1}<br />${question}</p>`);
 
+        correctId = `btn${id()}`
+
         alternatives.forEach(answer => {
             let button = $('<button/>', {
                 text: answer,
-                id: answer === correct_answer ? `btnCorrect` : `btnWrong`,
+                id: answer === correct_answer ? correctId : `btn${id()}`,
                 class: "answerButton",
                 click: function () {
                     
                     $(".answerButton").prop("disabled", true);
-                    $("#btnCorrect").css("background-color", "green");
+                    $(`#${correctId}`).css("background-color", "green");
 
-                    if (button.text() ===correct_answer) { 
+                    if (button.text() === correct_answer) { 
                         messageContainer.html(`${correct_answer} is correct!`);
                         score++;
                     } else {
@@ -103,6 +108,7 @@ let printQuestions = (questionsArray, questionCounter) => {
 
 }
 
+//This function gets called to shuffle the array of answers
 Object.defineProperty(Array.prototype, "shuffle", {
     value: function() {
         for (let i = this.length - 1; i > 0; i--) {
@@ -113,6 +119,14 @@ Object.defineProperty(Array.prototype, "shuffle", {
     }
 });
 
+//Generates a random id
+let id = () => {
+    return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+  }
+
+//This function pushes the last answered question to the log array
 let logAnswer = (question, answer, correctAnswer) => {
     answerLog.push( {
         logggedQuestion: question,
@@ -121,18 +135,13 @@ let logAnswer = (question, answer, correctAnswer) => {
     });
 }
 
-let decodeHtml = (html) => {
-    let txt = document.createElement("textarea");
-    txt.innerHTML = html;
-    return txt.value;
-}
-
 let resetTexts = () => {
     questionContainer.html("");
     messageContainer.html("");
     nextButtonContainer.html("");
 }
 
+//Last two functions replaces html enteties from the API
 let removeHtmlEnteties = (object) => {
     newIncorrectAnswers = object.incorrect_answers.map(answer => decodeHtml(answer));
     newObject = {
@@ -141,4 +150,10 @@ let removeHtmlEnteties = (object) => {
         incorrect_answers: newIncorrectAnswers
     };
     return newObject;
+}
+
+let decodeHtml = (html) => {
+    let txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
 }
