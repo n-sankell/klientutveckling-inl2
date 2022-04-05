@@ -26,6 +26,7 @@ $(".lightButton").on("click", ()=> {
 });
 
 let score;
+let answerLog;
 
 let startButton = $("#startButton");
 let submitContainer = $(".submitContainer");
@@ -44,6 +45,7 @@ slider.oninput = function() {
 let getData = async (url) => {
     submitContainer.hide();
     score = 0;
+    answerLog = [];
     let response = await axios.get(url);
     return response.data;
 }
@@ -83,6 +85,7 @@ let printQuestions = (questionsArray, questionCounter) => {
                     }
 
                     nextButtonContainer.append(nextQuestionButton);
+                    logAnswer(question,button.text(), correct_answer);
                     nextQuestionButton.on("click", () => {
                         printQuestions(questionsArray, questionCounter+1);
                     });
@@ -120,4 +123,12 @@ let decodeHtml = (html) => {
     let txt = document.createElement("textarea");
     txt.innerHTML = html;
     return txt.value;
+}
+
+let logAnswer = (question, answer, correctAnswer) => {
+    answerLog.push( {
+        logggedQuestion: question,
+        loggedAnswer: answer,
+        loggedCorrectAnswer: correctAnswer
+    });
 }
