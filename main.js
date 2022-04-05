@@ -41,6 +41,7 @@ let answeButtonContainer = $(".answeButtonContainer");
 let messageContainer = $(".messageContainer");
 let nextButtonContainer = $(".nextButtonContainer");
 let nextQuestionButton = $(`<button id="nextQuestionButton">Next</button>`);
+let playAgainButton = $(`<button id="playAgain">Play again</button>`);
 let slider = document.getElementById("antalSpel");
 let output = document.getElementById("demo");
 output.innerHTML = slider.value;
@@ -58,7 +59,7 @@ let getQueries = () => {
     let amount = 10;
     let category = "";
     let difficulty = "easy";
-    let type = "multiple";
+    let type = "boolean";
 
     let parameters = {
         params: {
@@ -121,12 +122,18 @@ let printQuestions = (questionsArray, questionCounter) => {
 
             answeButtonContainer.append(button);
             questionContainer.append(answeButtonContainer);
+            
         });
 
     } else {
         resetTexts();
         messageContainer.html(`Your score was ${score}`);
-        submitContainer.show();
+        messageContainer.append(playAgainButton);
+        playAgainButton.on("click", () => {
+            resetTexts();
+            submitContainer.show();
+        });
+        
     }
 
 }
