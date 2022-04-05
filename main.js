@@ -50,8 +50,25 @@ slider.oninput = function() {
 }
 
 let getData = async (url) => {
-    let response = await axios.get(url);
+    let response = await axios.get(url, getQueries());
     return response.data;
+}
+
+let getQueries = () => {
+    let amount = 10;
+    let category = "";
+    let difficulty = "easy";
+    let type = "multiple";
+
+    let parameters = {
+        params: {
+            amount: amount,
+            category: category,
+            difficulty: difficulty,
+            type: type
+        }
+    }
+    return parameters;
 }
 
 startButton.on("click", async (e) => {
@@ -59,7 +76,7 @@ startButton.on("click", async (e) => {
     submitContainer.hide();
     score = 0;
     answerLog = [];
-    let response = await getData("https://opentdb.com/api.php?amount=10");
+    let response = await getData("https://opentdb.com/api.php");
     printQuestions(response.results, 0);
 });
 
