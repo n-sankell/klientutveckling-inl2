@@ -10,6 +10,7 @@
 <body>
     <header>
         <h1>Ankademin Quiz</h1>
+        <div></div>
         <button class="darkButton">Dark</button>
         <button class="lightButton" hidden="hidden">Light</button>
     </header>
@@ -21,20 +22,23 @@
                 <p>Dra för att välja.</p>
 
              <div class="slidecontainer">
-             <input type="range" min="1" max="10" value="50" class="slider" id="antalSpel">
-             <p>antal spel: <span id="demo"></span></p>
+             <input type="range" min="5" max="25" value="10" class="slider" id="antalSpel">
+             <p>antal frågor: <span id="demo"></span></p>
              </div>
                 <input value="Start quiz" type="submit" class="startButton" id="startButton" />
-                
-
-
                 
             </form>
             
         </div>
         
     
-        <div class="questionContainer"></div>
+        <div class="questionContainer">
+            <div class="answeButtonContainer">
+
+        </div>
+    </div>
+
+        
     
         <div class="messageContainer"></div>
     

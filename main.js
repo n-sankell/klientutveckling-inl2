@@ -7,8 +7,11 @@ console.log(localStorage);
 if(localStorage) {
     if(localStorage.getItem("colorTheme") === "dark") {
         $("body").addClass("dark");
+        console.log("test")
         $(".darkButton").hide();
         $(".lightButton").show();
+    } else {
+        $(".lightButton").hide();
     }
 }
 
@@ -34,6 +37,7 @@ let answerLog;
 let startButton = $("#startButton");
 let submitContainer = $(".submitContainer");
 let questionContainer = $(".questionContainer");
+let answeButtonContainer = $(".answeButtonContainer");
 let messageContainer = $(".messageContainer");
 let nextButtonContainer = $(".nextButtonContainer");
 let nextQuestionButton = $(`<button id="nextQuestionButton">Next</button>`);
@@ -92,12 +96,14 @@ let printQuestions = (questionsArray, questionCounter) => {
                     nextButtonContainer.append(nextQuestionButton);
                     logAnswer(question,button.text(), correct_answer);
                     nextQuestionButton.on("click", () => {
+                        resetTexts();
                         printQuestions(questionsArray, questionCounter+1);
                     });
                 }
             });
 
-            questionContainer.append(button);
+            answeButtonContainer.append(button);
+            questionContainer.append(answeButtonContainer);
         });
 
     } else {
@@ -137,6 +143,7 @@ let logAnswer = (question, answer, correctAnswer) => {
 
 let resetTexts = () => {
     questionContainer.html("");
+    answeButtonContainer.html("");
     messageContainer.html("");
     nextButtonContainer.html("");
 }
