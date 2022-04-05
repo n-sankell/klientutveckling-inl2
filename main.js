@@ -46,15 +46,15 @@ slider.oninput = function() {
 }
 
 let getData = async (url) => {
-    submitContainer.hide();
-    score = 0;
-    answerLog = [];
     let response = await axios.get(url);
     return response.data;
 }
 
 startButton.on("click", async (e) => {
     e.preventDefault();
+    submitContainer.hide();
+    score = 0;
+    answerLog = [];
     let response = await getData("https://opentdb.com/api.php?amount=10");
     printQuestions(response.results, 0);
 });
