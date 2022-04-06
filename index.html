@@ -8,22 +8,56 @@
     <title>Ankademin Quiz</title>
 </head>
 <body>
+    <div class="frame">
     <header>
-        <h1>Ankademin Quiz</h1>
+        
+        <div class="title"><h1>Ankademin Quiz</h1></div>
+        <button class="darkButton">Dark</button>
+        <button class="lightButton" hidden="hidden">Light</button>
     </header>
 
     <main>
-        
         <div class="submitContainer">
             <form>
-                
-
+             <div class="optionsContainer">
+                 <label for=categorySelect"">Category</label>
+                 <select class="categorySelect" id="categorySelect">
+                     <option value="" selected="selected">Any</option>
+                     <option value="9">General knowledge</option>
+                     <option value="22">Geography</option>
+                     <option value="23">History</option>
+                     <option value="27">Animals</option>
+                 </select>
+                 <label for="difficultySelect">Difficulty</label>
+                 <select class="difficultySelect" id="difficultySelect">
+                    <option value="" selected="selected">Any</option>
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+                <label for="typeSelect">Type</label>
+                <select class="typeSelect" id="typeSelect">
+                    <option value="" selected="selected">Any</option>
+                    <option value="boolean">True or false</option>
+                    <option value="multiple">Multiple alternatives</option>
+                </select>
+                <label for="numberOfQuestions">Number of questions: <span id="numberDisplay"></span></label>
+                <input type="range" min="5" max="25" value="10" class="slider" id="numberOfQuestions">
+             </div>
                 <input value="Start quiz" type="submit" class="startButton" id="startButton" />
+                
             </form>
             
         </div>
+        
     
-        <div class="questionContainer"></div>
+        <div class="questionContainer">
+            <div class="answerButtonContainer">
+
+        </div>
+    </div>
+
+        
     
         <div class="messageContainer"></div>
     
@@ -36,7 +70,7 @@
     <footer>
         <p>N & N</p>
     </footer>
-
-    <script src="bundle.js""></script>
+</div>
+    <script src="bundle.js"></script>
 </body>
 </html>
