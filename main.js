@@ -1,18 +1,15 @@
 let axios = require("axios");
 let $ = require("jquery");
 
-console.log(localStorage);
+let answerLog;
 
 //Check local storage if there is a colot-theme saved
-if(localStorage) {
-    if(localStorage.getItem("colorTheme") === "dark") {
-        $("body").addClass("dark");
-        console.log("test")
-        $(".darkButton").hide();
-        $(".lightButton").show();
-    } else {
-        $(".lightButton").hide();
-    }
+if (localStorage.getItem("colorTheme") === "dark") {
+    $("body").addClass("dark");
+    $(".darkButton").hide();
+    $(".lightButton").show();
+} else {
+    $(".lightButton").hide();
 }
 
 $(".darkButton").on("click", ()=> {
@@ -31,24 +28,10 @@ $(".lightButton").on("click", ()=> {
     localStorage.setItem("colorTheme", "light");
 });
 
-let score;
-let answerLog;
-
-let startButton = $("#startButton");
-let submitContainer = $(".submitContainer");
-let questionContainer = $(".questionContainer");
-let answeButtonContainer = $(".answeButtonContainer");
-let messageContainer = $(".messageContainer");
-let nextButtonContainer = $(".nextButtonContainer");
-let nextQuestionButton = $(`<button id="nextQuestionButton">Next</button>`);
-let playAgainButton = $(`<button id="playAgain">Play again</button>`);
-let slider = document.getElementById("antalSpel");
-let output = document.getElementById("demo");
-output.innerHTML = slider.value;
-
-slider.oninput = function() {
-  output.innerHTML = this.value;
-}
+$("#demo").html($("#antalSpel").val());
+$("#antalSpel").on("input", () => {
+    $("#demo").html($("#antalSpel").val());
+});
 
 let getData = async (url) => {
     let response = await axios.get(url, getQueries());
@@ -56,32 +39,27 @@ let getData = async (url) => {
 }
 
 let getQueries = () => {
-    let amount = 10;
-    let category = "";
-    let difficulty = "easy";
-    let type = "boolean";
-
-    let parameters = {
+    return {
         params: {
-            amount: amount,
-            category: category,
-            difficulty: difficulty,
-            type: type
+            amount: $("#antalSpel").val(),
+            category: "",
+            difficulty: "",
+            type: ""
         }
-    }
-    return parameters;
+    };
 }
 
-startButton.on("click", async (e) => {
-    e.preventDefault();
-    submitContainer.hide();
-    score = 0;
+$("#startButton").on("click", async (e) => {
     answerLog = [];
+    e.preventDefault();
+    $(".submitContainer").hide();
     let response = await getData("https://opentdb.com/api.php");
-    printQuestions(response.results, 0);
+    printQuestion(response.results, 0, 0);
 });
 
-let printQuestions = (questionsArray, questionCounter) => {
+let answerButtonContainer = $(".answerButtonContainer");
+
+let printQuestion = (questionsArray, questionCounter, score) => {
     if (questionCounter < questionsArray.length) {
 
         resetTexts();
@@ -89,49 +67,53 @@ let printQuestions = (questionsArray, questionCounter) => {
         let { question, correct_answer, incorrect_answers } = removeHtmlEnteties(questionsArray[questionCounter]);
         let alternatives = [correct_answer, ...incorrect_answers].shuffle();
 
-        questionContainer.append(`<p>Question ${questionCounter+1}<br />${question}</p>`);
+        $(".questionContainer").append(`<p>Question ${questionCounter+1} / ${questionsArray.length}<br />${question}</p>`);
 
-        correctId = `btn${id()}`
+        let correctId = `btn${getRandomId()}`;
 
         alternatives.forEach(answer => {
-            let button = $('<button/>', {
+            let answerButton = $('<button/>', {
                 text: answer,
-                id: answer === correct_answer ? correctId : `btn${id()}`,
+                id: answer === correct_answer ? correctId : `btn${getRandomId()}`,
                 class: "answerButton",
-                click: function () {
+                click: () => {
                     
                     $(".answerButton").prop("disabled", true);
                     $(`#${correctId}`).css("background-color", "green");
 
-                    if (button.text() === correct_answer) { 
-                        messageContainer.html(`${correct_answer} is correct!`);
+                    if (answerButton.text() === correct_answer) { 
                         score++;
+                        $(".messageContainer").html(`<p>${correct_answer} is correct!<br/>Score: ${score}</p>`);
+                        
                     } else {
-                        button.css("background-color", "red");
-                        messageContainer.html(`<p>${button.text()} is wrong!<br/>${correct_answer} was the right answer</p>`);
+                        answerButton.css("background-color", "red");
+                        $(".messageContainer").html(`<p>${answerButton.text()} is wrong!<br/>${correct_answer} was the right answer<br/>Score: ${score}</p></p>`);
                     }
 
-                    nextButtonContainer.append(nextQuestionButton);
-                    logAnswer(question,button.text(), correct_answer);
-                    nextQuestionButton.on("click", () => {
+                    $(".nextButtonContainer").append($(`<button id="nextQuestionButton">Next</button>`));
+                    logAnswer(question, answerButton.text(), correct_answer);
+                    $("#nextQuestionButton").on("click", () => {
                         resetTexts();
-                        printQuestions(questionsArray, questionCounter+1);
+                        printQuestion(questionsArray, questionCounter+1, score);
                     });
                 }
             });
 
-            answeButtonContainer.append(button);
-            questionContainer.append(answeButtonContainer);
+            answerButtonContainer.append(answerButton);
+            $(".questionContainer").append(answerButtonContainer);
             
         });
 
     } else {
         resetTexts();
-        messageContainer.html(`Your score was ${score}`);
-        messageContainer.append(playAgainButton);
-        playAgainButton.on("click", () => {
+
+        $(".messageContainer").html(`<p>Your score was ${score} of ${questionsArray.length}</p><br />
+        <p>Grade: ${calculateScore(score, questionsArray.length)}</p>`);
+        $(".messageContainer").append($(`<button id="playAgain">Play again</button>`));
+
+        $("#playAgain").on("click", () => {
             resetTexts();
-            submitContainer.show();
+            $(".submitContainer").show();
         });
         
     }
@@ -150,7 +132,7 @@ Object.defineProperty(Array.prototype, "shuffle", {
 });
 
 //Generates a random id
-let id = () => {
+let getRandomId = () => {
     return Math.floor((1 + Math.random()) * 0x10000)
         .toString(16)
         .substring(1);
@@ -165,11 +147,23 @@ let logAnswer = (question, answer, correctAnswer) => {
     });
 }
 
+let calculateScore = (score, amountOfQuestions) => {
+    if (score / amountOfQuestions == 1) {
+        return "Aced it!"
+    } else if (score / amountOfQuestions >= 0.75) {
+        return "Exeptional!";
+    } else if (score / amountOfQuestions >= 0.5) {
+        return "Passed";
+    } else {
+        return "Failed";
+    }
+}
+
 let resetTexts = () => {
-    questionContainer.html("");
-    answeButtonContainer.html("");
-    messageContainer.html("");
-    nextButtonContainer.html("");
+    $(".questionContainer").html("");
+    answerButtonContainer.html("");
+    $(".messageContainer").html("");
+    $(".nextButtonContainer").html("");
 }
 
 //Last two functions replaces html enteties from the API
