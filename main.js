@@ -4,12 +4,11 @@ let $ = require("jquery");
 let answerLog;
 
 //Check local storage if there is a colot-theme saved
+$(".lightButton").hide();
 if (localStorage.getItem("colorTheme") === "dark") {
     $("body").addClass("dark");
     $(".darkButton").hide();
     $(".lightButton").show();
-} else {
-    $(".lightButton").hide();
 }
 
 $(".darkButton").on("click", ()=> {
@@ -87,11 +86,11 @@ let printQuestion = (questionsArray, questionCounter, score) => {
                         
                     } else {
                         answerButton.css("background-color", "red");
-                        $(".messageContainer").html(`<p>${answerButton.text()} is wrong!<br/>${correct_answer} was the right answer<br/>Score: ${score}</p>`);
+                        $(".messageContainer").html(`<p>${answerButton.text()} is wrong!<br/>${correct_answer} was the right answer.<br/>Score: ${score}</p>`);
                     }
 
-                    $(".nextButtonContainer").append($(`<button id="nextQuestionButton">Next</button>`));
                     logAnswer(question, answerButton.text(), correct_answer);
+                    $(".nextButtonContainer").append($(`<button id="nextQuestionButton">Next</button>`));
                     $("#nextQuestionButton").on("click", () => {
                         resetTexts();
                         printQuestion(questionsArray, questionCounter+1, score);
@@ -100,24 +99,22 @@ let printQuestion = (questionsArray, questionCounter, score) => {
             });
 
             answerButtonContainer.append(answerButton);
-            $(".questionContainer").append(answerButtonContainer);
-            
+
         });
 
+        $(".questionContainer").append(answerButtonContainer);
+
     } else {
-        resetTexts();
 
-        $(".messageContainer").html(`<p>Your score was ${score} of ${questionsArray.length}</p><br />
-        <p>Grade: ${calculateScore(score, questionsArray.length)}</p>`);
+        $(".messageContainer").html(`<p>Your score was ${score} of ${questionsArray.length}<br />
+        Grade: ${calculateScore(score/questionsArray.length)}</p>`);
+
         $(".messageContainer").append($(`<button id="playAgain">Play again</button>`));
-
         $("#playAgain").on("click", () => {
             resetTexts();
             $(".submitContainer").show();
         });
-        
     }
-
 }
 
 //This function gets called to shuffle the array of answers
@@ -147,15 +144,15 @@ let logAnswer = (question, answer, correctAnswer) => {
     });
 }
 
-let calculateScore = (score, amountOfQuestions) => {
-    if (score / amountOfQuestions == 1) {
-        return "Aced it!"
-    } else if (score / amountOfQuestions >= 0.75) {
-        return "Exeptional!";
-    } else if (score / amountOfQuestions >= 0.5) {
-        return "Passed";
+let calculateScore = (result) => {
+    if (result == 1) {
+        return `<span class="aced">Aced it!</span>`
+    } else if (result >= 0.75) {
+        return `<span class="exeptional">Exeptional!</span>`;
+    } else if (result >= 0.5) {
+        return `<span class="passed">Passed</span>`;
     } else {
-        return "Failed";
+        return `<span class="failed">Failed</span>`;
     }
 }
 
