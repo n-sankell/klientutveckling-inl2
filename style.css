@@ -106,9 +106,19 @@ button:hover {
 }
 
 .darkButton {
-    background-color: #474747;
-    color: #fff;
+    background-color: #1f2844;
+    color: #cfcfcf;
+    padding: 5px 10px;
+    font-size: 14px;
 }
+
+.lightButton {
+    background-color: #e0e0e0;
+    color: #1f2844;
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
 
 .questionContainer {
     display: flex;
