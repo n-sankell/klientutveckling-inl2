@@ -28,9 +28,9 @@ $(".lightButton").on("click", ()=> {
     localStorage.setItem("colorTheme", "light");
 });
 
-$("#demo").html($("#antalSpel").val());
-$("#antalSpel").on("input", () => {
-    $("#demo").html($("#antalSpel").val());
+$("#numberDisplay").html($("#numberOfQuestions").val());
+$("#numberOfQuestions").on("input", () => {
+    $("#numberDisplay").html($("#numberOfQuestions").val());
 });
 
 let getData = async (url) => {
@@ -41,10 +41,10 @@ let getData = async (url) => {
 let getQueries = () => {
     return {
         params: {
-            amount: $("#antalSpel").val(),
-            category: "",
-            difficulty: "",
-            type: ""
+            amount: $("#numberOfQuestions").val(),
+            category: $("#categorySelect").val(),
+            difficulty: $("#difficultySelect").val(),
+            type: $("#typeSelect").val()
         }
     };
 }
@@ -64,10 +64,10 @@ let printQuestion = (questionsArray, questionCounter, score) => {
 
         resetTexts();
         
-        let { question, correct_answer, incorrect_answers } = removeHtmlEnteties(questionsArray[questionCounter]);
+        let { question, category, difficulty, correct_answer, incorrect_answers } = removeHtmlEnteties(questionsArray[questionCounter]);
         let alternatives = [correct_answer, ...incorrect_answers].shuffle();
 
-        $(".questionContainer").append(`<p>Question ${questionCounter+1} / ${questionsArray.length}<br />${question}</p>`);
+        $(".questionContainer").append(`<p>Question ${questionCounter+1} / ${questionsArray.length}<br />${category}, ${difficulty}<br/><br/>${question}</p>`);
 
         let correctId = `btn${getRandomId()}`;
 
@@ -87,7 +87,7 @@ let printQuestion = (questionsArray, questionCounter, score) => {
                         
                     } else {
                         answerButton.css("background-color", "red");
-                        $(".messageContainer").html(`<p>${answerButton.text()} is wrong!<br/>${correct_answer} was the right answer<br/>Score: ${score}</p></p>`);
+                        $(".messageContainer").html(`<p>${answerButton.text()} is wrong!<br/>${correct_answer} was the right answer<br/>Score: ${score}</p>`);
                     }
 
                     $(".nextButtonContainer").append($(`<button id="nextQuestionButton">Next</button>`));
@@ -171,6 +171,8 @@ let removeHtmlEnteties = (object) => {
     newIncorrectAnswers = object.incorrect_answers.map(answer => decodeHtml(answer));
     newObject = {
         question: decodeHtml(object.question),
+        category: decodeHtml(object.category),
+        difficulty: decodeHtml(object.difficulty),
         correct_answer: decodeHtml(object.correct_answer), 
         incorrect_answers: newIncorrectAnswers
     };
