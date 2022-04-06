@@ -58,9 +58,10 @@ $("#startButton").on("click", async (e) => {
 
 let answerButtonContainer = $(".answerButtonContainer");
 
+//This method traverses the response array recursively and adds buttons and event listeners for each question
 let printQuestion = (questionsArray, questionCounter, score) => {
+    //Condition for recursive call
     if (questionCounter < questionsArray.length) {
-
         resetTexts();
         
         let { question, category, difficulty, correct_answer, incorrect_answers } = removeHtmlEnteties(questionsArray[questionCounter]);
@@ -93,6 +94,7 @@ let printQuestion = (questionsArray, questionCounter, score) => {
                     $(".nextButtonContainer").append($(`<button id="nextQuestionButton">Next</button>`));
                     $("#nextQuestionButton").on("click", () => {
                         resetTexts();
+                        //Call this method again 
                         printQuestion(questionsArray, questionCounter+1, score);
                     });
                 }
@@ -105,9 +107,9 @@ let printQuestion = (questionsArray, questionCounter, score) => {
         $(".questionContainer").append(answerButtonContainer);
 
     } else {
-
+        //We reach this point when all questions have been answered
         $(".messageContainer").html(`<p>Your score was ${score} of ${questionsArray.length}<br />
-        Grade: ${calculateScore(score/questionsArray.length)}</p>`);
+        Grade: ${getGrade(score/questionsArray.length)}</p>`);
 
         $(".messageContainer").append($(`<button id="playAgain">Play again</button>`));
         $("#playAgain").on("click", () => {
@@ -117,7 +119,7 @@ let printQuestion = (questionsArray, questionCounter, score) => {
     }
 }
 
-//This function gets called to shuffle the array of answers
+//This adds a shuffle function to arrays
 Object.defineProperty(Array.prototype, "shuffle", {
     value: function() {
         for (let i = this.length - 1; i > 0; i--) {
@@ -135,7 +137,7 @@ let getRandomId = () => {
         .substring(1);
   }
 
-//This function pushes the last answered question to the log array
+//This function logs the last answered question
 let logAnswer = (question, answer, correctAnswer) => {
     answerLog.push( {
         logggedQuestion: question,
@@ -144,7 +146,7 @@ let logAnswer = (question, answer, correctAnswer) => {
     });
 }
 
-let calculateScore = (result) => {
+let getGrade = (result) => {
     if (result == 1) {
         return `<span class="aced">Aced it!</span>`
     } else if (result >= 0.75) {
