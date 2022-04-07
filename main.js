@@ -57,10 +57,10 @@ $("#startButton").on("click", async (e) => {
 });
 
 let answerButtonContainer = $(".answerButtonContainer");
+let statsContainer = $(`<div class="statsContainer"></div>`);
 
-//This method traverses the response array recursively and adds buttons and event listeners for each question
+//This method adds buttons and event listeners for each question recursively
 let printQuestion = (questionsArray, questionCounter, score) => {
-    //Condition for recursive call
     if (questionCounter < questionsArray.length) {
         resetTexts();
         
@@ -72,7 +72,7 @@ let printQuestion = (questionsArray, questionCounter, score) => {
         let correctId = `btn${getRandomId()}`;
 
         alternatives.forEach(answer => {
-            let answerButton = $('<button/>', {
+            let answerButton = $("<button/>", {
                 text: answer,
                 id: answer === correct_answer ? correctId : `btn${getRandomId()}`,
                 class: "answerButton",
@@ -83,18 +83,25 @@ let printQuestion = (questionsArray, questionCounter, score) => {
 
                     if (answerButton.text() === correct_answer) { 
                         score++;
-                        $(".messageContainer").html(`<p>${correct_answer} is correct!<br/>Score: ${score}</p>`);
+                        $(".messageContainer").html(`<p>"${correct_answer}" is correct!<br/>Score: ${score}</p>`);
                         
                     } else {
                         answerButton.css("background-color", "red");
-                        $(".messageContainer").html(`<p>${answerButton.text()} is wrong!<br/>${correct_answer} was the right answer.<br/>Score: ${score}</p>`);
+                        $(".messageContainer").html(`<p>"${answerButton.text()}" is wrong!<br/>"${correct_answer}" was the right answer.<br/>Score: ${score}</p>`);
                     }
 
                     logAnswer(question, answerButton.text(), correct_answer);
+                    $(".nextButtonContainer").append($(`<button id="giveUp">Give up</button>`));
+                    $("#giveUp").on("click", () => {
+                        if (confirm("Would you like to go back?")) {
+                            resetTexts();
+                            $(".submitContainer").show();
+                        }
+                    });
                     $(".nextButtonContainer").append($(`<button id="nextQuestionButton">Next</button>`));
                     $("#nextQuestionButton").on("click", () => {
                         resetTexts();
-                        //Call this method again 
+                        //Recursive call to get the next question
                         printQuestion(questionsArray, questionCounter+1, score);
                     });
                 }
@@ -116,6 +123,29 @@ let printQuestion = (questionsArray, questionCounter, score) => {
             resetTexts();
             $(".submitContainer").show();
         });
+
+        $(".messageContainer").append($(`<button id="showStats">Show stats</button>`));
+        $("#showStats").on("click", () => {
+            $("#showStats").hide();
+            let counter = 1;
+            answerLog.forEach(log => {
+                statsContainer.append(`<p>${counter}: ${log.logggedQuestion}</p>`);
+                if (log.loggedAnswer === log.loggedCorrectAnswer) {
+                    statsContainer.append(`<div class ="loggedQuestion"><p>"${log.loggedAnswer}" was correct!</p></div>`);
+                } else {
+                    statsContainer.append(`<div class ="loggedQuestion"><p>"${log.loggedAnswer}" was wrong!<br/>"${log.loggedCorrectAnswer}" was the right answer.</p></div>`);
+                }
+                counter++;
+            });
+
+            statsContainer.append($(`<button id="hideStats">Hide stats</button>`));
+            $("#hideStats").on("click", () => {
+                statsContainer.html("");
+                $("#showStats").show();
+            });
+
+        });
+        $(".messageContainer").append(statsContainer);
     }
 }
 
@@ -159,8 +189,9 @@ let getGrade = (result) => {
 }
 
 let resetTexts = () => {
-    $(".questionContainer").html("");
     answerButtonContainer.html("");
+    statsContainer.html("");
+    $(".questionContainer").html("");
     $(".messageContainer").html("");
     $(".nextButtonContainer").html("");
 }
