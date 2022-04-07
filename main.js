@@ -51,9 +51,15 @@ let getQueries = () => {
 $("#startButton").on("click", async (e) => {
     answerLog = [];
     e.preventDefault();
-    $(".submitContainer").hide();
+    
     let response = await getData("https://opentdb.com/api.php");
-    printQuestion(response.results, 0, 0);
+    if (response.results.length === 0) {
+        alert("No game available.");
+    } else { 
+        $(".submitContainer").hide();
+        printQuestion(response.results, 0, 0);
+    }
+    
 });
 
 let answerButtonContainer = $(".answerButtonContainer");
