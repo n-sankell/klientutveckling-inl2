@@ -70,6 +70,7 @@ let printQuestion = (questionsArray, questionCounter, score) => {
         $(".questionContainer").append(`<p>Question ${questionCounter+1} / ${questionsArray.length}<br />${category}, ${difficulty}<br/><br/>${question}</p>`);
 
         let correctId = `btn${getRandomId()}`;
+        let buttonCounter = 1;
 
         alternatives.forEach(answer => {
             let answerButton = $("<button/>", {
@@ -108,6 +109,11 @@ let printQuestion = (questionsArray, questionCounter, score) => {
             });
 
             answerButtonContainer.append(answerButton);
+            if (buttonCounter === 2) {
+                console.log("hej");
+             answerButtonContainer.append($("<br/>"));
+            }
+            buttonCounter++;
 
         });
 
