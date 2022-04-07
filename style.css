@@ -4,15 +4,10 @@
     margin: 50;
 }
 
-
 body {
-
     font-family: Arial, Helvetica, sans-serif;
-    background: #ffffff;
+    background: linear-gradient(90deg, #ffffff 43%, #d2dcff 100%);
     color: #1f2844;
-}
-
-body {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,9 +19,9 @@ body {
 
 
 .frame {
-
     border-radius: 25px;
     max-width: 600px;
+    min-width: 550px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -36,6 +31,20 @@ body {
     width: 100%;
     background-color: #e0e0e0;
     border: #dadada 2px solid;
+}
+
+.questionContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 20px;
+    background-color: #efefef;
+    color: #1f2844;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    padding: 0 30px;
 }
 
 .title {
@@ -50,37 +59,86 @@ body {
     padding: 20px 100px;
 }
 
+.loggedQuestion {
+    background-color: #efefef;
+    padding: 3px;
+}
+
+/*buttons*/
+
 button {
-    color: #eeeeee;
-    background: #17426d;
+    color: #000;
+    background: #7caddf;
     padding: 16px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     border-radius: 20px;
-    border: #17426d 2px solid;
+    border: #6094c4 2px solid;
     margin: 4px 2px;
     transition-duration: 0.4s;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #008CBA;
-    color: white;
 
+button:hover {
+    background-color: #b7d9e5;
+    color: #000000;
 }
 
+button:disabled {
+    background: #565e74;
+}
+
+.startButton:hover {
+    background-color: #008CBA;
+    color: white;
+}
+
+/*dark mode*/
 
 .dark {
-    background-color: #161c30;
+    /*background-color: #161c30;*/
+    background: linear-gradient(90deg, #161c30 50%, #2a365b 100%);
+    color: #1f2844;
     color: #eeeeee;
+    transition-duration: 0.2s;
+}
+
+.dark .questionContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 20px;
+    background-color: #2b3452;
+    color: #ffffff;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    padding: 0 30px;
+}
+
+.dark button {
+    background: #17426d;
+    color: #fff;
+    border: #17426d 2px solid;
+}
+
+.dark button:hover {
+    background-color: #008CBA;
+    color: white;
 }
 
 .dark .frame {
     background-color: #1f2844;
     color: #ffffff;
     border: #17426d 2px solid;
+}
+
+.dark button:disabled {
+    background: #1f2844;
 }
 
 
@@ -99,15 +157,9 @@ button:hover {
     cursor: pointer;
 }
 
-
-.startButton:hover {
-    background-color: #008CBA;
-    color: white;
-}
-
 .darkButton {
-    background-color: #1f2844;
-    color: #cfcfcf;
+    background-color: #7caddf;
+    color: #000;
     padding: 5px 10px;
     font-size: 14px;
 }
@@ -119,21 +171,12 @@ button:hover {
     font-size: 14px;
 }
 
-
-.questionContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-
-    opacity: 1;
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    padding: 0 30px;
-
+.dark .loggedQuestion {
+    background-color: #29355b;
+    padding: 3px;
 }
 
+/*Slider*/
 
 .slider {
     -webkit-appearance: none;
@@ -173,4 +216,62 @@ button:hover {
 footer {
     color: #868686;
     font-size: smaller;
+}
+
+/*result*/
+
+.aced {
+    color: green;
+}
+
+.exeptional {
+    color: yellow;
+}
+
+.passed {
+    color: orange;
+}
+
+.failed {
+    color: red;
+}
+
+/*options*/
+
+.optionsContainer {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    border-radius: 20px;
+    background-color: #efefef;
+    padding: 10px;
+    margin: 10px;
+}
+
+select {
+    border-radius: 10px;
+    color: #000000;
+}
+
+label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+}
+
+.categorySelect, .difficultySelect, .typeSelect {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #7caddf;
+    font-size: 16px;
+}
+
+.dark .optionsContainer {
+    background-color: #2b3452;
+}
+
+.dark .categorySelect, .dark .difficultySelect, .dark .typeSelect{
+    background-color: #17426d;
+    color: #fff;
+    border: 2px solid #17426d;
+    font-size: 16px;
 }
