@@ -192,7 +192,7 @@ let getGrade = (result) => {
     if (result == 1) {
         return `<span class="aced">Aced it!</span>`;
     } else if (result >= 0.75) {
-        return `<span class="exeptional!">Exeptional!</span>`;
+        return `<span class="exeptional">Exeptional!</span>`;
     } else if (result >= 0.5) {
         return `<span class="passed">Passed!</span>`;
     } else {
