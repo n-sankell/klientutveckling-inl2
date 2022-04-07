@@ -178,13 +178,13 @@ let logAnswer = (question, answer, correctAnswer) => {
 
 let getGrade = (result) => {
     if (result == 1) {
-        return `<span class="aced">Aced it!</span>`
+        return `<span class="aced">Aced it!</span>`;
     } else if (result >= 0.75) {
-        return `<span class="exeptional">Exeptional!</span>`;
+        return `<span class="exeptional!">Exeptional!</span>`;
     } else if (result >= 0.5) {
-        return `<span class="passed">Passed</span>`;
+        return `<span class="passed">Passed!</span>`;
     } else {
-        return `<span class="failed">Failed</span>`;
+        return `<span class="failed">Failed!</span>`;
     }
 }
 

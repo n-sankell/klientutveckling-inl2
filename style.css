@@ -66,6 +66,12 @@ body {
     padding: 20px 100px;
 }
 
+.loggedQuestion{
+    background-color: #efefef;
+    padding: 3px;
+
+}
+
 /*buttons*/
 
 button {
@@ -176,6 +182,11 @@ button:disabled {
     font-size: 14px;
 }
 
+.dark .loggedQuestion{
+    background-color: #29355b;
+    padding: 3px;
+}
+
 
 /*Slider*/
 
@@ -239,3 +250,22 @@ footer {
 .failed {
     color: red;
 }
+
+.optionsContainer {
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    background-color: #efefef;
+    padding: 10px;
+    margin: 10px;
+}
+
+select{
+    border-radius: 10px;
+
+    color: #000000;
+}
+label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+  }
