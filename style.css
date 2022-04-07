@@ -218,3 +218,24 @@ footer {
     color: #868686;
     font-size: smaller;
 }
+
+/*result*/
+
+.aced {
+   
+    color: green;
+    
+}
+
+.exeptional {
+    color:yellow;
+}
+
+.passed {
+    color: orange;
+
+}
+
+.failed {
+    color: red;
+}
