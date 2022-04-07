@@ -3,7 +3,7 @@ let $ = require("jquery");
 
 let answerLog;
 
-//Check local storage if there is a colot-theme saved
+//Check local storage if there is a color-theme saved
 $(".lightButton").hide();
 if (localStorage.getItem("colorTheme") === "dark") {
     $("body").addClass("dark");
@@ -59,7 +59,6 @@ $("#startButton").on("click", async (e) => {
         $(".submitContainer").hide();
         printQuestion(response.results, 0, 0);
     }
-    
 });
 
 let answerButtonContainer = $(".answerButtonContainer");
@@ -115,9 +114,9 @@ let printQuestion = (questionsArray, questionCounter, score) => {
             });
 
             answerButtonContainer.append(answerButton);
+
             if (buttonCounter === 2) {
-                console.log("hej");
-             answerButtonContainer.append($("<br/>"));
+                answerButtonContainer.append($("<br/>"));
             }
             buttonCounter++;
 

@@ -1,76 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Ankademin Quiz</title>
+    <title>Quackademic Quiz</title>
 </head>
+
 <body>
     <div class="frame">
-    <header>
-        
-        <div class="title"><h1>Ankademin Quiz</h1></div>
-        <button class="darkButton">Dark</button>
-        <button class="lightButton" hidden="hidden">Light</button>
-    </header>
+        <header>
+            <div class="title">
+                <h1>Quackademic Quiz</h1>
+            </div>
+            <button class="darkButton">Dark</button>
+            <button class="lightButton" hidden="hidden">Light</button>
+        </header>
 
-    <main>
-        <div class="submitContainer">
-            <form>
-             <div class="optionsContainer">
-                 <label for="categorySelect">Category</label>
-                 <select class="categorySelect" id="categorySelect">
-                     <option value="" selected="selected">Any</option>
-                     <option value="9">General knowledge</option>
-                     <option value="22">Geography</option>
-                     <option value="23">History</option>
-                     <option value="27">Animals</option>
-                 </select>
-                 <label for="difficultySelect">Difficulty</label>
-                 <select class="difficultySelect" id="difficultySelect">
-                    <option value="" selected="selected">Any</option>
-                    <option value="easy">Easy</option>
-                    <option value="medium">Medium</option>
-                    <option value="hard">Hard</option>
-                </select>
-                <label for="typeSelect">Type</label>
-                <select class="typeSelect" id="typeSelect">
-                    <option value="" selected="selected">Any</option>
-                    <option value="boolean">True or false</option>
-                    <option value="multiple">Multiple alternatives</option>
-                </select>
-                <label for="numberOfQuestions">Number of questions: <span id="numberDisplay"></span></label>
-                <input type="range" min="5" max="25" value="10" class="slider" id="numberOfQuestions">
-             </div>
-                <input value="Start quiz" type="submit" class="startButton" id="startButton" />
-                
-            </form>
-            
-        </div>
-        
-    
-        <div class="questionContainer">
-            <div class="answerButtonContainer">
+        <main>
+            <div class="submitContainer">
+                <form>
+                    <div class="optionsContainer">
+                        <label for="categorySelect">Category</label>
+                        <select class="categorySelect" id="categorySelect">
+                            <option value="" selected="selected">Any</option>
+                            <option value="9">General knowledge</option>
+                            <option value="22">Geography</option>
+                            <option value="23">History</option>
+                            <option value="27">Animals</option>
+                        </select>
+                        <label for="difficultySelect">Difficulty</label>
+                        <select class="difficultySelect" id="difficultySelect">
+                            <option value="" selected="selected">Any</option>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                        <label for="typeSelect">Type</label>
+                        <select class="typeSelect" id="typeSelect">
+                            <option value="" selected="selected">Any</option>
+                            <option value="boolean">True or false</option>
+                            <option value="multiple">Multiple alternatives</option>
+                        </select>
+                        <label for="numberOfQuestions">Number of questions: <span id="numberDisplay"></span></label>
+                        <input type="range" min="5" max="25" value="10" class="slider" id="numberOfQuestions">
+                    </div>
+                    <input value="Start quiz" type="submit" class="startButton" id="startButton" />
+                </form>
+            </div>
 
-        </div>
+            <div class="questionContainer">
+                <div class="answerButtonContainer"></div>
+            </div>
+
+            <div class="messageContainer"></div>
+
+            <div class="nextButtonContainer"></div>
+
+        </main>
+
+        <footer>
+            <p>N & N</p>
+        </footer>
     </div>
-
-        
-    
-        <div class="messageContainer"></div>
-    
-        <div class="nextButtonContainer">
-            
-        </div>
-
-    </main>
-
-    <footer>
-        <p>N & N</p>
-    </footer>
-</div>
     <script src="bundle.js"></script>
 </body>
+
 </html>
