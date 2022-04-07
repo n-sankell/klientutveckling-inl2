@@ -264,7 +264,20 @@ label {
     display: inline-block;
 }
 
+.categorySelect, .difficultySelect, .typeSelect {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #7caddf;
+    font-size: 16px;
+}
 
 .dark .optionsContainer {
     background-color: #2b3452;
+}
+
+.dark .categorySelect, .dark .difficultySelect, .dark .typeSelect{
+    background-color: #17426d;
+    color: #fff;
+    border: 2px solid #17426d;
+    font-size: 16px;
 }
