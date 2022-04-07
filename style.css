@@ -27,6 +27,7 @@ body {
 
     border-radius: 25px;
     max-width: 600px;
+    min-width: 550px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -50,37 +51,66 @@ body {
     padding: 20px 100px;
 }
 
+/*buttons*/
+
 button {
-    color: #eeeeee;
-    background: #17426d;
+    color: #000;
+    background: #7caddf;
     padding: 16px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     border-radius: 20px;
-    border: #17426d 2px solid;
+    border: #6094c4 2px solid;
     margin: 4px 2px;
     transition-duration: 0.4s;
     cursor: pointer;
 }
 
+
 button:hover {
-    background-color: #008CBA;
-    color: white;
+    background-color: #b7d9e5;
+    color: rgb(0, 0, 0);
 
 }
 
+button:disabled {
+    background: #565e74;
+
+}
+
+.startButton:hover {
+    background-color: #008CBA;
+    color: white;
+}
+
+/*dark mode*/
 
 .dark {
     background-color: #161c30;
     color: #eeeeee;
 }
 
+.dark button {
+    background: #17426d;
+    color:#fff;
+    border: #17426d 2px solid;
+}
+
+.dark button:hover {
+    background-color: #008CBA;
+    color: white;
+}
+
 .dark .frame {
     background-color: #1f2844;
     color: #ffffff;
     border: #17426d 2px solid;
+}
+
+.dark button:disabled {
+    background: #1f2844;
 }
 
 
@@ -100,10 +130,7 @@ button:hover {
 }
 
 
-.startButton:hover {
-    background-color: #008CBA;
-    color: white;
-}
+
 
 .darkButton {
     background-color: #1f2844;
@@ -134,10 +161,11 @@ button:hover {
 
 }
 
+/*Slider*/
 
 .slider {
     -webkit-appearance: none;
-    width: 100%;
+    width: 80%;
     height: 7px;
     border-radius: 10px;
     background: #17426d;
